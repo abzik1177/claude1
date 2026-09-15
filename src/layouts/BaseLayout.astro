@@ -47,12 +47,16 @@ const orgJsonLd = {
     // Netlify Identity taklif/parol-tiklash havolalari shu sahifaga #token bilan tushadi.
     // Oddiy tashrifchilar uchun bu skript umuman yuklanmaydi — faqat token bo'lsa ishlaydi.
     if (/(invite_token|confirmation_token|recovery_token|email_change_token)=/.test(window.location.hash)) {
+      // Eski (masalan, buzilgan) sessiya keshini tozalab, tokenni har doim qayta ishlaymiz.
+      Object.keys(localStorage)
+        .filter((k) => k.includes('gotrue'))
+        .forEach((k) => localStorage.removeItem(k));
       const s = document.createElement('script');
       s.src = 'https://identity.netlify.com/v1/netlify-identity-widget.js';
       s.onload = () => {
         const identity = (window as any).netlifyIdentity;
         if (identity) {
-          identity.on('init', (user: unknown) => { if (!user) identity.open(); });
+          identity.on('init', () => identity.open());
           identity.on('login', () => { window.location.href = '/admin/'; });
           identity.init();
         }
