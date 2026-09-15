@@ -46,7 +46,13 @@ const orgJsonLd = {
   <script>
     // Netlify Identity taklif/parol-tiklash havolalari shu sahifaga #token bilan tushadi.
     // Oddiy tashrifchilar uchun bu skript umuman yuklanmaydi — faqat token bo'lsa ishlaydi.
-    if (/(invite_token|confirmation_token|recovery_token|email_change_token)=/.test(window.location.hash)) {
+    // hashchange'ni ham tinglaymiz: eski ochiq tab bir xil sahifa ichida faqat hash'ni
+    // almashtirsa (qayta yuklanmasdan), shu holatda ham tokenni ushlab olish uchun.
+    let identityScriptLoading = false;
+    function handleAuthHash() {
+      if (!/(invite_token|confirmation_token|recovery_token|email_change_token)=/.test(window.location.hash)) return;
+      if (identityScriptLoading) return;
+      identityScriptLoading = true;
       // Eski (masalan, buzilgan) sessiya keshini tozalab, tokenni har doim qayta ishlaymiz.
       Object.keys(localStorage)
         .filter((k) => k.includes('gotrue'))
@@ -63,6 +69,8 @@ const orgJsonLd = {
       };
       document.head.appendChild(s);
     }
+    handleAuthHash();
+    window.addEventListener('hashchange', handleAuthHash);
   </script>
 </head>
 <body>
