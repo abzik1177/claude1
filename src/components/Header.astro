@@ -1,0 +1,56 @@
+---
+const nav = [
+  { href: '/xizmatlar/', label: 'Xizmatlar' },
+  { href: '/narxlar/', label: 'Narxlar' },
+  { href: '/blog/', label: 'Blog' },
+  { href: '/biz-haqimizda/', label: 'Biz haqimizda' },
+  { href: '/faq/', label: 'Savol-javob' },
+];
+---
+<style>
+  header{ position:sticky; top:0; z-index:50; background:color-mix(in srgb, var(--paper) 92%, transparent);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line); }
+  .row{ display:flex; align-items:center; justify-content:space-between; padding-block:14px; gap:16px; }
+  .logo{ display:flex; align-items:center; gap:10px; font-family:var(--serif); font-weight:600; font-size:19px;
+    text-decoration:none; color:var(--ink); flex-shrink:0; }
+  nav.main{ display:flex; align-items:center; gap:26px; }
+  nav.main a{ font-size:14px; font-weight:500; text-decoration:none; color:var(--ink-soft); transition:color 0.15s ease; }
+  nav.main a:hover, nav.main a[aria-current="page"]{ color:var(--brass-deep); }
+  .actions{ display:flex; align-items:center; gap:14px; }
+  .burger{ display:none; background:none; border:1px solid var(--line); border-radius:3px; padding:8px 10px; cursor:pointer; }
+  .burger span, .burger span::before, .burger span::after{ display:block; width:16px; height:2px; background:var(--ink); position:relative; }
+  .burger span::before, .burger span::after{ content:""; position:absolute; }
+  .burger span::before{ top:-5px; } .burger span::after{ top:5px; }
+  @media (max-width:880px){
+    nav.main{ position:fixed; inset:57px 0 auto 0; background:var(--paper); flex-direction:column; align-items:flex-start;
+      padding:18px 20px; border-bottom:1px solid var(--line); transform:translateY(-8px); opacity:0; pointer-events:none;
+      transition:opacity 0.15s ease, transform 0.15s ease; gap:16px; }
+    nav.main.open{ transform:translateY(0); opacity:1; pointer-events:auto; }
+    .burger{ display:block; }
+    .cta-desktop{ display:none; }
+  }
+</style>
+<header>
+  <div class="wrap row">
+    <a href="/" class="logo">
+      <svg width="30" height="30" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <circle cx="16" cy="16" r="15" stroke="var(--brass)" stroke-width="1.4"/>
+        <path d="M16 9L18.2 13.8L23.5 14.4L19.6 17.9L20.7 23.1L16 20.4L11.3 23.1L12.4 17.9L8.5 14.4L13.8 13.8L16 9Z" fill="var(--brass)"/>
+      </svg>
+      <span>IPNishon</span>
+    </a>
+    <nav class="main" id="mainNav">
+      {nav.map(item => <a href={item.href} aria-current={Astro.url.pathname.startsWith(item.href) ? 'page' : undefined}>{item.label}</a>)}
+    </nav>
+    <div class="actions">
+      <a href="/aloqa/" class="btn btn-primary cta-desktop" style="padding:9px 16px; font-size:13px;">Bepul konsultatsiya</a>
+      <button class="burger" id="burger" aria-label="Menyu"><span></span></button>
+    </div>
+  </div>
+</header>
+<script>
+  const burger = document.getElementById('burger');
+  const nav = document.getElementById('mainNav');
+  burger?.addEventListener('click', () => nav?.classList.toggle('open'));
+  nav?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('open')));
+</script>

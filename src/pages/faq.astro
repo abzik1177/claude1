@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = "Savol-javob | Tovar Belgisi va Patent Bo'yicha FAQ | IPNishon";
+const description = "Tovar belgisini ro'yxatdan o'tkazish muddati, narxi, xalqaro himoya va rad etilgan arizalar bo'yicha ko'p beriladigan savollarga javoblar.";
+
+const faqs = [
+  { q: "Tovar belgisini ro'yxatdan o'tkazish qancha vaqt oladi?", a: 'Odatda 8-12 oy, tezlashtirilgan tartibda 3-4 oy davom etadi.' },
+  { q: "Ro'yxatdan o'tish muddati qancha?", a: "10 yil, keyin cheksiz marta yangilanadi." },
+  { q: "Qidiruv nima uchun kerak?", a: "Rad etilish yoki nizo xavfini oldindan kamaytiradi." },
+  { q: "Xalqaro himoya kerakmi?", a: "Agar mahsulot chet elga chiqarilsa, Madrid tizimi orqali himoya tavsiya qilinadi." },
+  { q: "Agar arizam rad etilsa nima bo'ladi?", a: "Biz e'tiroz bildiramiz va qaror ustidan shikoyat qilamiz." },
+  { q: "Jismoniy shaxs tovar belgisini ro'yxatdan o'tkaza oladimi?", a: "Ha, O'zbekistonda jismoniy shaxslar va yakka tartibdagi tadbirkorlar ham ariza topshirishi mumkin." },
+  { q: "Tovar belgisi va patent bir xil narsami?", a: "Yo'q. Tovar belgisi nom va logotipni, patent esa texnik yechim yoki dizaynni himoya qiladi." },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <section style="border-bottom:none;">
+    <div class="wrap-narrow">
+      <p class="crumbs"><a href="/">Bosh sahifa</a> / Savol-javob</p>
+      <div class="section-head">
+        <p class="eyebrow">SAVOL-JAVOB</p>
+        <h1>Ko'p beriladigan savollar</h1>
+      </div>
+      <div class="faq-list">
+        {faqs.map((f, i) => (
+          <div class="faq-item" data-idx={i}>
+            <button class="faq-q" aria-expanded="false">
+              <span>{f.q}</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">{f.a}</div></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  section{ padding-block:56px 88px; }
+  .faq-list{ display:flex; flex-direction:column; border-top:1px solid var(--line); }
+  .faq-item{ border-bottom:1px solid var(--line); }
+  .faq-q{ width:100%; text-align:left; background:none; border:none; cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:16px; padding-block:20px; font-family:var(--sans); font-size:15.5px; font-weight:600; color:var(--ink); }
+  .faq-q svg{ flex-shrink:0; transition:transform 0.2s ease; color:var(--ink-faint); }
+  .faq-item.open .faq-q svg{ transform:rotate(45deg); color:var(--brass-deep); }
+  .faq-a{ max-height:0; overflow:hidden; transition:max-height 0.22s ease; }
+  .faq-a-inner{ padding-bottom:20px; font-size:14.5px; color:var(--ink-soft); max-width:60ch; }
+</style>
+<script>
+  document.querySelectorAll('.faq-item').forEach((item) => {
+    const btn = item.querySelector('.faq-q') as HTMLButtonElement;
+    const ans = item.querySelector('.faq-a') as HTMLElement;
+    btn.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach((o) => {
+        o.classList.remove('open');
+        (o.querySelector('.faq-a') as HTMLElement).style.maxHeight = '';
+        (o.querySelector('.faq-q') as HTMLElement).setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        ans.style.maxHeight = ans.scrollHeight + 'px';
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+</script>

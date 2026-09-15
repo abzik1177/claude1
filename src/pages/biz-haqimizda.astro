@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = "Biz Haqimizda | IPNishon — Tovar Belgisi Agentligi";
+const description = "IPNishon — 7 yillik tajribaga ega, litsenziyalangan patent vakillaridan iborat jamoa. 420+ muvaffaqiyatli ro'yxatdan o'tgan tovar belgisi.";
+
+const why = [
+  { t: 'Litsenziyalangan vakillar', d: "Davpatent reestrida ro'yxatdan o'tgan patent vakillari." },
+  { t: '7 yillik tajriba', d: "420 dan ortiq muvaffaqiyatli yakunlangan ish." },
+  { t: 'Shaffof narxlar', d: 'Shartnomada barcha xarajatlar oldindan ko’rsatiladi.' },
+  { t: 'Shaxsiy huquqshunos', d: "Har bir mijozga alohida biriktirilgan mas'ul vakil." },
+];
+
+const testimonials = [
+  { q: "Ikki oy ichida belgimiz ro'yxatdan o'tdi, jarayonning har bosqichida xabardor qilib turishdi.", n: 'Sardor Aliyev', r: '“Nur Tex”, asoschisi' },
+  { q: "Xitoyga eksport qilishdan oldin Madrid tizimi orqali himoyani ular tashkil qilishdi — juda tez va aniq ishlashadi.", n: 'Malika Yusupova', r: '“Davr Foods”, marketing direktori' },
+];
+---
+<BaseLayout title={title} description={description}>
+  <section>
+    <div class="wrap-narrow">
+      <p class="crumbs"><a href="/">Bosh sahifa</a> / Biz haqimizda</p>
+      <div class="section-head">
+        <p class="eyebrow">BIZ HAQIMIZDA</p>
+        <h1>Tovar belgingizni ishonib topshirsangiz bo'ladigan jamoa</h1>
+        <p>IPNishon 2019-yildan beri O'zbekiston tadbirkorlariga tovar belgisini ro'yxatdan o'tkazish, qidirish va xalqaro himoya qilishda yordam berib kelmoqda. Jamoamiz Davpatent reestrida ro'yxatdan o'tgan litsenziyalangan patent vakillaridan iborat.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="why">
+    <div class="wrap">
+      <h2>Nega bizni tanlashadi</h2>
+      <div class="why-grid">
+        {why.map(item => (
+          <div class="why-item"><h3>{item.t}</h3><p>{item.d}</p></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="testimonials" style="border-bottom:none;">
+    <div class="wrap">
+      <h2>Mijozlar fikri</h2>
+      <div class="testi-grid">
+        {testimonials.map(t => (
+          <div class="testi-card">
+            <p class="testi-quote">"{t.q}"</p>
+            <div class="testi-who"><span class="testi-name">{t.n}</span><span class="testi-role">{t.r}</span></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  h2{ font-size:clamp(24px,3vw,32px); margin-bottom:32px; }
+  .why-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:28px; }
+  @media (max-width:900px){ .why-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:520px){ .why-grid{ grid-template-columns:1fr; } }
+  .why-item{ display:flex; flex-direction:column; gap:10px; padding-top:18px; border-top:2px solid var(--brass); }
+  .why-item h3{ font-size:16px; font-weight:600; }
+  .why-item p{ font-size:13.5px; color:var(--ink-soft); }
+
+  .testi-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:24px; }
+  @media (max-width:760px){ .testi-grid{ grid-template-columns:1fr; } }
+  .testi-card{ background:var(--panel); border:1px solid var(--line); padding:28px; display:flex; flex-direction:column; gap:18px; }
+  .testi-quote{ font-family:var(--serif); font-size:17px; font-style:italic; line-height:1.5; }
+  .testi-who{ display:flex; flex-direction:column; gap:1px; font-size:13px; }
+  .testi-name{ font-weight:600; }
+  .testi-role{ color:var(--ink-faint); }
+</style>

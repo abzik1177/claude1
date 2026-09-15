@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = "Bog'lanish | IPNishon";
+const description = "Tovar belgisi va patent bo'yicha bepul konsultatsiya uchun IPNishon jamoasi bilan bog'laning. Toshkent, telefon va email orqali murojaat qiling.";
+---
+<BaseLayout title={title} description={description}>
+  <section style="border-bottom:none;">
+    <div class="wrap contact-grid">
+      <div>
+        <p class="crumbs"><a href="/">Bosh sahifa</a> / Bog'lanish</p>
+        <p class="eyebrow">BOG'LANISH</p>
+        <h1>Bepul konsultatsiya uchun yozing</h1>
+        <p class="sub">24 soat ichida javob beramiz.</p>
+        <div class="info-list">
+          <div class="info-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            <div><div class="info-label">Manzil</div><div class="info-value">Toshkent sh., Mirzo Ulug'bek t., Universitet ko'ch. 12</div></div>
+          </div>
+          <div class="info-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 2 .7 3a2 2 0 0 1-.5 2.1L8 10.1a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c1 .4 2 .6 3 .7a2 2 0 0 1 1.6 2Z"/></svg>
+            <div><div class="info-label">Telefon</div><div class="info-value">+998 71 200 10 10</div></div>
+          </div>
+          <div class="info-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+            <div><div class="info-label">Email</div><div class="info-value">info@ipnishon.uz</div></div>
+          </div>
+          <div class="info-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            <div><div class="info-label">Ish vaqti</div><div class="info-value">Dush-Juma, 09:00-18:00</div></div>
+          </div>
+        </div>
+      </div>
+      <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="contact" />
+        <p style="display:none;"><label>Botmisiz? <input name="bot-field" /></label></p>
+        <div class="field">
+          <label for="cf-name">Ismingiz</label>
+          <input id="cf-name" name="name" type="text" required />
+        </div>
+        <div class="field">
+          <label for="cf-phone">Telefon raqam</label>
+          <input id="cf-phone" name="phone" type="tel" required />
+        </div>
+        <div class="field">
+          <label for="cf-msg">Xabar (ixtiyoriy)</label>
+          <textarea id="cf-msg" name="message" placeholder="Belgingiz haqida qisqacha yozing"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Yuborish</button>
+      </form>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  section{ padding-block:56px 88px; }
+  .contact-grid{ display:grid; grid-template-columns:1fr 1fr; gap:56px; }
+  @media (max-width:880px){ .contact-grid{ grid-template-columns:1fr; gap:40px; } }
+  h1{ margin-top:16px; font-size:clamp(28px,4vw,40px); }
+  .sub{ margin-top:14px; color:var(--ink-soft); font-size:15px; }
+  .info-list{ display:flex; flex-direction:column; gap:22px; margin-top:28px; }
+  .info-item{ display:flex; gap:14px; }
+  .info-item svg{ flex-shrink:0; color:var(--brass-deep); margin-top:2px; }
+  :root[data-theme="dark"] .info-item svg{ color:var(--brass); }
+  .info-label{ font-size:12px; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-faint); font-family:var(--mono); }
+  .info-value{ font-size:14.5px; margin-top:2px; }
+  form{ display:flex; flex-direction:column; gap:16px; }
+  .field{ display:flex; flex-direction:column; gap:7px; }
+  .field label{ font-size:12.5px; font-weight:600; color:var(--ink-soft); }
+  .field input, .field textarea{ font-family:var(--sans); font-size:14.5px; padding:12px 14px; border:1px solid var(--line); border-radius:3px; background:var(--panel); color:var(--ink); }
+  .field input:focus, .field textarea:focus{ border-color:var(--brass); outline:none; }
+  .field textarea{ resize:vertical; min-height:100px; }
+</style>

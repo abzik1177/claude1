@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = "Tovar Belgisini Ro'yxatdan O'tkazish Narxlari | IPNishon";
+const description = "Tovar belgisini ro'yxatdan o'tkazish xizmatlari narxlari: boshlang'ich, biznes va xalqaro paketlar. Davlat boji narxga kiritilmagan.";
+
+const plans = [
+  { name: "Boshlang'ich", price: '2 900 000', period: "so'm / 1 ta ariza", tag: null,
+    features: ["1 ta Nitsa sinfi", "Milliy ro'yxatga olish", 'Oldindan qidiruv tahlili', "Hujjatlarni to'liq tayyorlash"] },
+  { name: 'Biznes', price: '5 400 000', period: "so'm / 1 ta ariza", tag: 'Ommabop',
+    features: ['3 tagacha Nitsa sinfi', 'Tezlashtirilgan ariza', '1 yillik monitoring', 'Cheksiz huquqiy maslahat'] },
+  { name: 'Xalqaro', price: 'Individual', period: 'talab asosida hisoblanadi', tag: null,
+    features: ["Madrid tizimi orqali ro'yxat", 'Bir nechta davlat tanlovi', "To'liq yuridik hamrohlik", 'Nizolar bo’yicha vakillik'] },
+];
+
+const checkIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>';
+---
+<BaseLayout title={title} description={description}>
+  <section>
+    <div class="wrap">
+      <p class="crumbs"><a href="/">Bosh sahifa</a> / Narxlar</p>
+      <div class="section-head">
+        <p class="eyebrow">NARXLAR</p>
+        <h1>Shaffof paketlar, biznesingiz hajmiga mos</h1>
+        <p>Davlat boji narxlarga kiritilmagan, alohida hisoblanadi. Aniq narxni bepul konsultatsiya davomida aytib beramiz.</p>
+      </div>
+      <div class="pricing-grid">
+        {plans.map(p => (
+          <div class={`price-card ${p.tag ? 'popular' : ''}`}>
+            {p.tag && <span class="price-tag">{p.tag}</span>}
+            <div class="price-name">{p.name}</div>
+            <div><div class="price-amount">{p.price}</div><div class="price-period">{p.period}</div></div>
+            <ul class="price-features">
+              {p.features.map(f => <li set:html={`${checkIcon}<span>${f}</span>`} />)}
+            </ul>
+            <a href="/aloqa/" class="btn btn-ghost">Bog'lanish</a>
+          </div>
+        ))}
+      </div>
+      <p class="note">Davlat boji miqdori tanlangan sinflar soniga va ariza turiga qarab o'zgaradi. Rasmiy tariflar Davpatent veb-saytida e'lon qilinadi.</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  section{ padding-block:56px 88px; }
+  .pricing-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; align-items:stretch; }
+  @media (max-width:880px){ .pricing-grid{ grid-template-columns:1fr; max-width:420px; margin-inline:auto; } }
+  .price-card{ background:var(--panel); border:1px solid var(--line); padding:30px 26px; display:flex; flex-direction:column; gap:20px; position:relative; }
+  .price-card.popular{ border-color:var(--brass); border-width:1.5px; }
+  .price-tag{ position:absolute; top:-12px; left:26px; background:var(--brass); color:#1a1200; font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; padding:4px 10px; }
+  .price-name{ font-family:var(--serif); font-size:20px; font-weight:600; }
+  .price-amount{ font-family:var(--mono); font-size:28px; font-weight:500; font-variant-numeric:tabular-nums; }
+  .price-period{ font-size:12.5px; color:var(--ink-faint); margin-top:-14px; }
+  .price-features{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:11px; flex:1; }
+  .price-features :global(li){ display:flex; gap:10px; font-size:13.5px; color:var(--ink-soft); align-items:flex-start; }
+  .price-features :global(svg){ flex-shrink:0; margin-top:2px; color:var(--good); }
+  .note{ margin-top:32px; font-size:13px; color:var(--ink-faint); max-width:70ch; }
+</style>

@@ -1,0 +1,48 @@
+---
+const year = new Date().getFullYear();
+---
+<style>
+  footer{ padding-block:52px 32px; }
+  .top{ display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:40px; padding-bottom:36px; border-bottom:1px solid var(--line); }
+  @media (max-width:700px){ .top{ grid-template-columns:1fr; gap:28px; } }
+  .brand{ display:flex; flex-direction:column; gap:14px; max-width:320px; }
+  .brand p{ font-size:13.5px; color:var(--ink-soft); }
+  .col h4{ font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-faint); font-family:var(--mono); margin-bottom:14px; }
+  .col a{ display:block; font-size:14px; color:var(--ink-soft); text-decoration:none; margin-bottom:10px; }
+  .col a:hover{ color:var(--brass-deep); }
+  .bottom{ display:flex; justify-content:space-between; align-items:center; padding-top:24px; gap:16px; flex-wrap:wrap; font-size:12.5px; color:var(--ink-faint); }
+</style>
+<footer>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <a href="/" style="display:flex; align-items:center; gap:10px; font-family:var(--serif); font-weight:600; font-size:19px; text-decoration:none; color:var(--ink);">
+          <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <circle cx="16" cy="16" r="15" stroke="var(--brass)" stroke-width="1.4"/>
+            <path d="M16 9L18.2 13.8L23.5 14.4L19.6 17.9L20.7 23.1L16 20.4L11.3 23.1L12.4 17.9L8.5 14.4L13.8 13.8L16 9Z" fill="var(--brass)"/>
+          </svg>
+          <span>IPNishon</span>
+        </a>
+        <p>Tovar belgilarini qidirish, ro'yxatdan o'tkazish, patentlash va himoya qilish bo'yicha yuridik agentlik.</p>
+      </div>
+      <div class="col">
+        <h4>Havolalar</h4>
+        <a href="/xizmatlar/">Xizmatlar</a>
+        <a href="/narxlar/">Narxlar</a>
+        <a href="/blog/">Blog</a>
+        <a href="/faq/">Savol-javob</a>
+        <a href="/aloqa/">Bog'lanish</a>
+      </div>
+      <div class="col">
+        <h4>Kontakt</h4>
+        <a href="tel:+998712001010">+998 71 200 10 10</a>
+        <a href="mailto:info@ipnishon.uz">info@ipnishon.uz</a>
+        <a href="/aloqa/">Toshkent, Mirzo Ulug'bek t.</a>
+      </div>
+    </div>
+    <div class="bottom">
+      <span>© {year} IPNishon. Barcha huquqlar himoyalangan.</span>
+      <span>Namunaviy sayt — kontent joylashtirilishi kerak.</span>
+    </div>
+  </div>
+</footer>

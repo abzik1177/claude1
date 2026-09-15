@@ -1,0 +1,166 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { services } from '../data/services.ts';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const title = "Tovar Belgisini Ro'yxatdan O'tkazish va Patentlash | IPNishon";
+const description =
+  "IPNishon — tovar belgisini ro'yxatdan o'tkazish, qidirish va xalqaro himoya qilish bo'yicha yuridik xizmatlar. O'zbekiston va Madrid tizimi orqali 420+ muvaffaqiyatli ish.";
+
+const stats = [
+  { n: '420+', l: "ro'yxatdan o'tgan tovar belgisi" },
+  { n: '35 kun', l: "o'rtacha ariza tayyorlash muddati" },
+  { n: '45', l: 'Nitsa sinfi bo’yicha tajriba' },
+  { n: '98%', l: "ro'yxatga olishdagi muvaffaqiyat" },
+];
+
+const serviceIcons = [
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20Z"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m12 2 8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16M4 12h16M4 18h7"/></svg>',
+];
+---
+<BaseLayout title={title} description={description}>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">TOVAR BELGILARI &amp; PATENT XIZMATLARI</p>
+        <h1>Tovar belgingiz — <em>obro'ingiz</em>. Uni birinchi bo'lib himoya qiling.</h1>
+        <p class="sub">
+          IPNishon jamoasi <a href="/xizmatlar/tovar-belgisini-royxatdan-otkazish/">tovar belgisini ro'yxatdan o'tkazish</a>dan
+          guvohnoma olishgacha to'liq huquqiy yordam ko'rsatadi — O'zbekiston, MDH va
+          <a href="/xizmatlar/xalqaro-royxatga-olish/">Madrid tizimi</a> orqali xalqaro himoya.
+        </p>
+        <div class="hero-actions">
+          <a href="/aloqa/" class="btn btn-primary">Bepul konsultatsiya</a>
+          <a href="/xizmatlar/" class="btn btn-ghost">Xizmatlarni ko'rish</a>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-top">
+          <div>
+            <div class="cert-label">Ro'yxatga olish guvohnomasi</div>
+            <div class="cert-no">No. UZ-TM-004821</div>
+          </div>
+          <svg width="60" height="60" viewBox="0 0 64 64" fill="none">
+            <circle cx="32" cy="32" r="30" stroke="var(--brass)" stroke-width="1.2"/>
+            <circle cx="32" cy="32" r="24" stroke="var(--brass)" stroke-width="0.8" stroke-dasharray="2 3"/>
+            <text x="32" y="36" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="var(--brass)">IPNISHON</text>
+          </svg>
+        </div>
+        <div class="cert-title">"NUR TEX" tovar belgisi</div>
+        <div class="cert-row"><span>Nitsa sinfi</span><span>09, 35, 42</span></div>
+        <div class="cert-row"><span>Ustuvorlik sanasi</span><span>14.03.2026</span></div>
+        <div class="cert-row"><span>Amal qilish muddati</span><span>10 yil</span></div>
+        <div class="cert-foot">Namunaviy guvohnoma</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats-bar">
+    <div class="wrap stats-grid">
+      {stats.map(s => (
+        <div class="stat-item"><span class="stat-num">{s.n}</span><span class="stat-label">{s.l}</span></div>
+      ))}
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">XIZMATLAR</p>
+        <h2>Qidiruvdan sud jarayonigacha — bitta jamoa</h2>
+        <p>Har bir bosqichda litsenziyalangan patent vakillari ishlaydi. Quyidagi xizmatlar haqida batafsil o'qing.</p>
+      </div>
+      <div class="services-grid">
+        {services.map((s, i) => (
+          <a class="service-card" href={`/xizmatlar/${s.slug}/`}>
+            <span class="service-icon" set:html={serviceIcons[i]} />
+            <h3>{s.title}</h3>
+            <p>{s.short}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="blog-teaser">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">BLOG</p>
+        <h2>Tovar belgilari va patent bo'yicha maqolalar</h2>
+        <p>Ro'yxatdan o'tkazish jarayoni, narxlar va eng ko'p uchraydigan xatolar haqida foydali qo'llanmalar.</p>
+      </div>
+      <div class="blog-grid">
+        {posts.map(post => (
+          <a class="blog-card" href={`/blog/${post.id}/`}>
+            <span class="tag">{post.data.tags[0] ?? 'Maqola'}</span>
+            <h3>{post.data.title}</h3>
+            <p>{post.data.description}</p>
+          </a>
+        ))}
+      </div>
+      <div style="margin-top:28px;"><a href="/blog/" class="btn btn-ghost">Barcha maqolalar</a></div>
+    </div>
+  </section>
+
+  <section id="cta" style="border-bottom:none;">
+    <div class="wrap-narrow" style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:20px;">
+      <h2>Tovar belgingizni bugun himoya qilishni boshlang</h2>
+      <p style="color:var(--ink-soft); font-size:15.5px;">Bepul konsultatsiya davomida belgingiz ro'yxatdan o'tish imkoniyatini tekshirib beramiz.</p>
+      <a href="/aloqa/" class="btn btn-primary">Bepul konsultatsiya olish</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero{ padding-top:56px; }
+  .hero-grid{ display:grid; grid-template-columns:1.05fr 0.95fr; gap:56px; align-items:center; }
+  @media (max-width:940px){ .hero-grid{ grid-template-columns:1fr; gap:48px; } }
+  .hero-copy h1{ font-size:clamp(34px,4.6vw,54px); line-height:1.08; margin-top:16px; }
+  .hero-copy h1 em{ font-style:italic; color:var(--brass-deep); font-weight:500; }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .hero-copy h1 em{ color:var(--brass); } }
+  :root[data-theme="dark"] .hero-copy h1 em{ color:var(--brass); }
+  .hero-copy p.sub{ margin-top:20px; font-size:17px; color:var(--ink-soft); max-width:52ch; }
+  .hero-copy p.sub a{ color:var(--brass-deep); text-decoration:underline; text-underline-offset:2px; }
+  .hero-actions{ display:flex; gap:14px; margin-top:32px; flex-wrap:wrap; }
+
+  .cert-card{ position:relative; background:var(--panel); border:1px solid var(--line); padding:30px 28px; max-width:420px; margin-inline:auto; }
+  .cert-card::before{ content:""; position:absolute; inset:8px; border:1px dashed var(--line); pointer-events:none; }
+  .cert-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
+  .cert-label{ font-family:var(--mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-faint); }
+  .cert-no{ font-family:var(--mono); font-size:12px; color:var(--ink-soft); margin-top:4px; }
+  .cert-title{ font-family:var(--serif); font-size:22px; font-weight:600; margin-top:22px; }
+  .cert-row{ display:flex; justify-content:space-between; font-size:13px; padding-block:9px; border-top:1px solid var(--line); color:var(--ink-soft); }
+  .cert-row span:last-child{ font-family:var(--mono); color:var(--ink); }
+  .cert-foot{ margin-top:16px; font-size:11.5px; color:var(--ink-faint); font-family:var(--mono); }
+
+  .stats-bar{ padding-block:40px; }
+  .stats-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
+  @media (max-width:760px){ .stats-grid{ grid-template-columns:repeat(2,1fr); } }
+  .stat-item{ display:flex; flex-direction:column; gap:6px; }
+  .stat-num{ font-family:var(--mono); font-size:clamp(26px,3vw,34px); font-weight:500; color:var(--ink); font-variant-numeric:tabular-nums; }
+  .stat-label{ font-size:12.5px; color:var(--ink-faint); }
+
+  .services-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+  @media (max-width:900px){ .services-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:600px){ .services-grid{ grid-template-columns:1fr; } }
+  .service-card{ background:var(--panel); padding:28px 26px; display:flex; flex-direction:column; gap:14px; text-decoration:none; color:inherit; }
+  .service-card:hover h3{ color:var(--brass-deep); }
+  .service-icon{ width:34px; height:34px; color:var(--brass-deep); display:block; }
+  :root[data-theme="dark"] .service-icon{ color:var(--brass); }
+  .service-card h3{ font-size:17.5px; font-weight:600; transition:color 0.15s ease; }
+  .service-card p{ font-size:14px; color:var(--ink-soft); }
+
+  .blog-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+  @media (max-width:900px){ .blog-grid{ grid-template-columns:1fr; } }
+  .blog-card{ background:var(--panel); border:1px solid var(--line); padding:24px; display:flex; flex-direction:column; gap:12px; text-decoration:none; color:inherit; }
+  .blog-card h3{ font-size:17px; }
+  .blog-card p{ font-size:13.5px; color:var(--ink-soft); }
+</style>

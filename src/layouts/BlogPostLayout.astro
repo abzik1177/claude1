@@ -1,0 +1,60 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  tags: string[];
+}
+const { title, description, pubDate, updatedDate, tags } = Astro.props;
+
+const dateFmt = (d: Date) => d.toLocaleDateString('uz-UZ', { year: 'numeric', month: 'long', day: 'numeric' });
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: pubDate.toISOString(),
+  dateModified: (updatedDate ?? pubDate).toISOString(),
+  author: { '@type': 'Organization', name: 'IPNishon' },
+};
+---
+<BaseLayout title={`${title} | IPNishon Blog`} description={description} jsonLd={jsonLd}>
+  <article>
+    <div class="wrap-narrow">
+      <p class="crumbs"><a href="/">Bosh sahifa</a> / <a href="/blog/">Blog</a></p>
+      <div class="post-tags">{tags.map(t => <span class="tag">{t}</span>)}</div>
+      <h1>{title}</h1>
+      <p class="post-date">
+        <time datetime={pubDate.toISOString()}>{dateFmt(pubDate)}</time>
+        {updatedDate && <span> · Yangilangan: <time datetime={updatedDate.toISOString()}>{dateFmt(updatedDate)}</time></span>}
+      </p>
+      <div class="prose">
+        <slot />
+      </div>
+      <div class="post-cta">
+        <p>Savolingiz bormi yoki tovar belgingizni ro'yxatdan o'tkazmoqchimisiz?</p>
+        <a href="/aloqa/" class="btn btn-primary">Bepul konsultatsiya olish</a>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  article{ padding-block:56px 88px; }
+  .post-tags{ display:flex; gap:8px; margin-bottom:18px; }
+  h1{ font-size:clamp(28px,4vw,42px); line-height:1.15; }
+  .post-date{ font-family:var(--mono); font-size:13px; color:var(--ink-faint); margin-top:16px; }
+  .prose{ margin-top:36px; font-size:16.5px; line-height:1.75; display:flex; flex-direction:column; gap:20px; }
+  .prose :global(h2){ font-size:24px; margin-top:12px; }
+  .prose :global(p){ color:var(--ink-soft); }
+  .prose :global(a){ color:var(--brass-deep); text-decoration:underline; text-underline-offset:2px; }
+  .prose :global(ul), .prose :global(ol){ color:var(--ink-soft); padding-left:22px; display:flex; flex-direction:column; gap:8px; }
+  .prose :global(table){ width:100%; border-collapse:collapse; font-size:14.5px; }
+  .prose :global(th), .prose :global(td){ border:1px solid var(--line); padding:10px 12px; text-align:left; color:var(--ink-soft); }
+  .prose :global(th){ font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:0.04em; color:var(--ink-faint); }
+  .post-cta{ margin-top:48px; padding-top:32px; border-top:1px solid var(--line); display:flex; flex-direction:column; gap:16px; align-items:flex-start; }
+</style>

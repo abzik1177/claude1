@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { services } from '../../data/services.ts';
+
+const title = "Tovar Belgisi va Patent Xizmatlari | IPNishon";
+const description = "Tovar belgisini ro'yxatdan o'tkazish, qidirish, xalqaro ro'yxatga olish, patentlash va nizolarni hal qilish bo'yicha to'liq yuridik xizmatlar ro'yxati.";
+---
+<BaseLayout title={title} description={description}>
+  <section>
+    <div class="wrap">
+      <p class="crumbs"><a href="/">Bosh sahifa</a> / Xizmatlar</p>
+      <div class="section-head">
+        <p class="eyebrow">XIZMATLAR</p>
+        <h1>Tovar belgisi va intellektual mulk xizmatlari</h1>
+        <p>Tovar belgisini ro'yxatdan o'tkazishdan xalqaro himoyagacha — biznesingiz uchun kerakli barcha yuridik xizmatlar bitta joyda.</p>
+      </div>
+      <div class="list">
+        {services.map(s => (
+          <a class="row" href={`/xizmatlar/${s.slug}/`}>
+            <div>
+              <h2>{s.title}</h2>
+              <p>{s.description}</p>
+            </div>
+            <span class="arrow">→</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .list{ display:flex; flex-direction:column; border-top:1px solid var(--line); }
+  .row{ display:flex; justify-content:space-between; align-items:center; gap:24px; padding-block:30px; border-bottom:1px solid var(--line); text-decoration:none; color:inherit; }
+  .row h2{ font-size:21px; margin-bottom:8px; transition:color 0.15s ease; }
+  .row:hover h2{ color:var(--brass-deep); }
+  .row p{ color:var(--ink-soft); font-size:14.5px; max-width:62ch; }
+  .arrow{ font-size:22px; color:var(--brass); flex-shrink:0; }
+  @media (max-width:640px){ .row{ flex-direction:column; align-items:flex-start; gap:10px; } }
+</style>
