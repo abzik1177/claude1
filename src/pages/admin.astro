@@ -1,0 +1,97 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Admin — IPNishon" description="Blogga maqola qo'shish" noindex={true}>
+  <section style="border-bottom:none;">
+    <div class="wrap-narrow">
+      <div class="section-head">
+        <p class="eyebrow">ADMIN</p>
+        <h1>Blogga yangi maqola qo'shish</h1>
+        <p>Formani to'ldirib yuboring — maqola GitHub repoga qo'shiladi va 1 daqiqacha ichida saytda paydo bo'ladi.</p>
+      </div>
+
+      <form id="postForm">
+        <div class="field">
+          <label for="password">Admin parol</label>
+          <input id="password" type="password" required autocomplete="current-password" />
+        </div>
+        <div class="field">
+          <label for="title">Sarlavha</label>
+          <input id="title" type="text" required />
+        </div>
+        <div class="field">
+          <label for="description">Qisqa tavsif (SEO uchun, 1-2 gap)</label>
+          <textarea id="description" required style="min-height:60px;"></textarea>
+        </div>
+        <div class="field">
+          <label for="tags">Teglar (vergul bilan ajrating)</label>
+          <input id="tags" type="text" placeholder="Qo'llanma, Maslahat" />
+        </div>
+        <div class="field">
+          <label for="body">Maqola matni (Markdown: ## sarlavha, - ro'yxat, [matn](/link/) havola)</label>
+          <textarea id="body" required style="min-height:320px; font-family:var(--mono); font-size:13px;"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" id="submitBtn">Joylashtirish</button>
+        <p id="statusMsg" style="font-size:13.5px; margin-top:4px;"></p>
+      </form>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  section{ padding-block:56px 88px; }
+  form{ display:flex; flex-direction:column; gap:18px; margin-top:36px; }
+  .field{ display:flex; flex-direction:column; gap:7px; }
+  .field label{ font-size:12.5px; font-weight:600; color:var(--ink-soft); }
+  .field input, .field textarea{
+    font-family:var(--sans); font-size:14.5px; padding:12px 14px;
+    border:1px solid var(--line); border-radius:3px; background:var(--panel); color:var(--ink);
+  }
+  .field input:focus, .field textarea:focus{ border-color:var(--brass); outline:none; }
+  .field textarea{ resize:vertical; }
+  button{ align-self:flex-start; }
+  button:disabled{ opacity:0.6; cursor:not-allowed; }
+</style>
+
+<script>
+  const form = document.getElementById('postForm') as HTMLFormElement;
+  const statusMsg = document.getElementById('statusMsg') as HTMLElement;
+  const submitBtn = document.getElementById('submitBtn') as HTMLButtonElement;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    statusMsg.textContent = 'Yuborilmoqda...';
+    statusMsg.style.color = 'var(--ink-faint)';
+
+    const payload = {
+      password: (document.getElementById('password') as HTMLInputElement).value,
+      title: (document.getElementById('title') as HTMLInputElement).value,
+      description: (document.getElementById('description') as HTMLTextAreaElement).value,
+      tags: (document.getElementById('tags') as HTMLInputElement).value,
+      body: (document.getElementById('body') as HTMLTextAreaElement).value,
+    };
+
+    try {
+      const res = await fetch('/.netlify/functions/add-post', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        statusMsg.style.color = 'var(--good)';
+        statusMsg.textContent = `Muvaffaqiyatli qo'shildi! ~1 daqiqadan so'ng shu yerda ko'rinadi: ${data.url}`;
+        form.reset();
+      } else {
+        statusMsg.style.color = '#c0392b';
+        statusMsg.textContent = data.error || 'Xatolik yuz berdi';
+      }
+    } catch (err) {
+      statusMsg.style.color = '#c0392b';
+      statusMsg.textContent = 'Tarmoq xatoligi, qayta urinib ko‘ring';
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+</script>

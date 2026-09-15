@@ -7,8 +7,9 @@ interface Props {
   title: string;
   description: string;
   jsonLd?: Record<string, unknown>;
+  noindex?: boolean;
 }
-const { title, description, jsonLd } = Astro.props;
+const { title, description, jsonLd, noindex } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 
 const orgJsonLd = {
@@ -31,7 +32,7 @@ const orgJsonLd = {
   <title>{title}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={canonical} />
-  <meta name="robots" content="index, follow" />
+  <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:type" content="website" />
@@ -43,35 +44,6 @@ const orgJsonLd = {
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <script>
-    // Netlify Identity taklif/parol-tiklash havolalari shu sahifaga #token bilan tushadi.
-    // Oddiy tashrifchilar uchun bu skript umuman yuklanmaydi — faqat token bo'lsa ishlaydi.
-    // hashchange'ni ham tinglaymiz: eski ochiq tab bir xil sahifa ichida faqat hash'ni
-    // almashtirsa (qayta yuklanmasdan), shu holatda ham tokenni ushlab olish uchun.
-    let identityScriptLoading = false;
-    function handleAuthHash() {
-      if (!/(invite_token|confirmation_token|recovery_token|email_change_token)=/.test(window.location.hash)) return;
-      if (identityScriptLoading) return;
-      identityScriptLoading = true;
-      // Eski (masalan, buzilgan) sessiya keshini tozalab, tokenni har doim qayta ishlaymiz.
-      Object.keys(localStorage)
-        .filter((k) => k.includes('gotrue'))
-        .forEach((k) => localStorage.removeItem(k));
-      const s = document.createElement('script');
-      s.src = 'https://identity.netlify.com/v1/netlify-identity-widget.js';
-      s.onload = () => {
-        const identity = (window as any).netlifyIdentity;
-        if (identity) {
-          identity.on('init', () => identity.open());
-          identity.on('login', () => { window.location.href = '/admin/'; });
-          identity.init();
-        }
-      };
-      document.head.appendChild(s);
-    }
-    handleAuthHash();
-    window.addEventListener('hashchange', handleAuthHash);
-  </script>
 </head>
 <body>
   <Header />
